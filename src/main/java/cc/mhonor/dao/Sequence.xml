@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="cc.mhonor.dao.SequenceDao">
+
+    <resultMap id="BaseResultMap" type="SequenceEntity">
+        <id column="id" property="id" jdbcType="INTEGER" javaType="Integer"/>
+        <result column="currValue" property="currValue" jdbcType="VARCHAR" javaType="String"/>
+        <result column="incrementValue" property="incrementValue" jdbcType="VARCHAR" javaType="String"/>
+        <result column="bizName" property="bizName" jdbcType="VARCHAR" javaType="String"/>
+        <result column="createTime" property="createTime" jdbcType="TIMESTAMP" javaType="String"/>
+        <result column="modifyTime" property="modifyTime" jdbcType="TIMESTAMP" javaType="String"/>
+        <result column="remark" property="remark" jdbcType="VARCHAR" javaType="String"/>
+    </resultMap>
+
+    <!--获取当前的序列值-->
+    <select id="getCurrValue" resultType="SequenceEntity" parameterType="java.lang.String">
+        select * from tb_seq where bizName=#{bizName}
+    </select>
+
+    <!--添加业务序列-->
+    <insert id="addSeq" parameterType="SequenceEntity">
+        insert into tb_seq(currValue,incrementValue,bizName,createTime,modifyTime,remark) values(#{currValue},#{incrementValue},#{bizName},CURRENT_TIMESTAMP ,CURRENT_TIMESTAMP ,#{remark})
+    </insert>
+
+    <!--更新当前序列值-->
+    <update id="modifySeq" parameterType="java.lang.String">
+        update tb_seq set currValue=currValue+1,modifyTime=CURRENT_TIMESTAMP where bizName=#{bizName}
+    </update>
+
+</mapper>

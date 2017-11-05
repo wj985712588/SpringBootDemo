@@ -1,0 +1,60 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<configuration scan="true" scanPeriod="60 seconds" debug="false">
+    <contextName>logback</contextName>
+
+    <!--彩色日志配置===开始-->
+    <conversionRule conversionWord="clr" converterClass="org.springframework.boot.logging.logback.ColorConverter"/>
+    <conversionRule conversionWord="wex"
+                    converterClass="org.springframework.boot.logging.logback.WhitespaceThrowableProxyConverter"/>
+    <conversionRule conversionWord="wEx"
+                    converterClass="org.springframework.boot.logging.logback.ExtendedWhitespaceThrowableProxyConverter"/>
+
+    <property name="LOG_PATTERN"
+              value="${CONSOLE_LOG_PATTERN:-%clr(%d{yyyy-MM-dd HH:mm:ss.SSS}){faint} %clr(${LOG_LEVEL_PATTERN:-%5p}) %clr(${PID:- }){magenta} %clr(---){faint} %clr([%15.15t]){faint} %clr(%-40.40logger{39}){cyan} %clr(:){faint} %m%n${LOG_EXCEPTION_CONVERSION_WORD:-%wEx}}"/>
+    <!--彩色日志配置===结束-->
+
+    <!--SpringBoot默认的日志输出规则：%d{yyyy-MM-dd HH:mm:ss.SSS} -%5p ${PID:-} \-\-\- [%15.15t] %-40.40logger{39} : %m%n-->
+
+    <appender name="console" class="ch.qos.logback.core.ConsoleAppender">
+        <encoder>
+            <pattern>${LOG_PATTERN}</pattern>
+            <charset>utf8</charset>
+        </encoder>
+    </appender>
+
+    <appender name="file" class="ch.qos.logback.core.rolling.RollingFileAppender">
+        <encoder>
+            <pattern>%d{yyyy-MM-dd HH:mm:ss.SSS} -%5p ${PID:-} --- [%15.15t] %-40.40logger{39} : %m%n</pattern>
+            <charset>utf8</charset>
+        </encoder>
+        <rollingPolicy class="ch.qos.logback.core.rolling.TimeBasedRollingPolicy">
+            <!--文件日志位置：相对目录logs下的demo.%d.log文件-->
+            <fileNamePattern>
+                logs/demo.%d.log
+            </fileNamePattern>
+            <!--最大历史日志数-->
+            <maxHistory>30</maxHistory>
+            <!--所有日志总大小-->
+            <totalSizeCap>1GB</totalSizeCap>
+        </rollingPolicy>
+    </appender>
+
+
+    <root level="info">
+        <appender-ref ref="console"></appender-ref>
+        <appender-ref ref="file"></appender-ref>
+    </root>
+
+    <logger name="org.springframework.web" level="debug">
+        <appender-ref ref="console"></appender-ref>
+        <appender-ref ref="file"></appender-ref>
+    </logger>
+    <logger name="org.mybatis" level="debug">
+        <appender-ref ref="console"></appender-ref>
+        <appender-ref ref="file"></appender-ref>
+    </logger>
+    <logger name="cc.mhonor.dao" level="debug">
+        <appender-ref ref="console"></appender-ref>
+        <appender-ref ref="file"></appender-ref>
+    </logger>
+</configuration>

@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="cc.mhonor.dao.UserDao" >
+
+    <resultMap id="BaseResultMap" type="UserEntity" >
+        <id column="id" property="id" jdbcType="INTEGER" javaType="Integer"/>
+        <result column="userName" property="userName" jdbcType="VARCHAR" javaType="String"/>
+        <result column="passWord" property="passWord" jdbcType="VARCHAR" javaType="String"/>
+        <result column="age" property="age" jdbcType="INTEGER" javaType="Integer"/>
+        <result column="gender" property="gender" jdbcType="VARCHAR" javaType="cc.mhonor.enums.GenderCodeEnum"/>
+    </resultMap>
+
+    <sql id="BaseColumns">
+        id,userName,passWord,age,gender
+    </sql>
+
+    <select id="userList" resultMap="BaseResultMap">
+        select <include refid="BaseColumns"/> from tb_user
+    </select>
+
+    <insert id="addUser" parameterType="UserEntity">
+        insert into tb_user(userName,passWord,age,gender) values(#{userName},#{passWord},#{age},#{gender})
+    </insert>
+
+    <delete id="deleteUserById" parameterType="java.lang.Integer">
+        delete from tb_user where id=#{id}
+    </delete>
+
+
+</mapper>
